@@ -1,272 +1,273 @@
-<!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Generator Struktur Folder</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        body {
-            font-family: 'Inter', sans-serif;
-        }
-        .tab-active {
-            background-color: #4f46e5;
-            color: white;
-        }
-        .tab-inactive {
-            background-color: #374151;
-            color: #d1d5db;
-        }
-        /* Custom scrollbar for webkit browsers */
-        ::-webkit-scrollbar {
-            width: 8px;
-            height: 8px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #1f2937;
-        }
-        ::-webkit-scrollbar-thumb {
-            background-color: #4b5563;
-            border-radius: 10px;
-            border: 2px solid #1f2937;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background-color: #6b7280;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Generator Struktur Folder</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family:Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+body {
+font-family: 'Inter', sans-serif;
+}
+.tab-active {
+background-color: #4f46e5;
+color: white;
+}
+.tab-inactive {
+background-color: #374151;
+color: #d1d5db;
+}
+/* Custom scrollbar for webkit browsers */
+::-webkit-scrollbar {
+width: 8px;
+height: 8px;
+}
+::-webkit-scrollbar-track {
+background: #1f2937;
+}
+::-webkit-scrollbar-thumb {
+background-color: #4b5563;
+border-radius: 10px;
+border: 2px solid #1f2937;
+}
+::-webkit-scrollbar-thumb:hover {
+background-color: #6b7280;
+}
+</style>
 </head>
 <body class="bg-gray-900 text-gray-200 antialiased">
 
-    <div class="container mx-auto p-4 md:p-8">
-        <header class="text-center mb-8">
-            <h1 class="text-4xl md:text-5xl font-bold text-white">Generator Struktur Folder</h1>
-            <p class="mt-2 text-lg text-gray-400">Buat skrip untuk membangun struktur direktori Anda secara otomatis.</p>
-        </header>
+<div class="container mx-auto p-4 md:p-8">
+<header class="text-center mb-8">
+<h1 class="text-4xl md:text-5xl font-bold text-white">Generator Struktur Folder</h1>
+<p class="mt-2 text-lg text-gray-400">Buat skrip untuk membangun struktur direktori Anda secara otomatis.</p>
+</header>
 
-        <main class="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <!-- Input Section -->
-            <div class="bg-gray-800 p-6 rounded-xl shadow-lg">
-                <label for="structure-input" class="block text-xl font-semibold mb-3 text-white">1. Definisikan Struktur Anda</label>
-                <p class="text-gray-400 mb-4 text-sm">Gunakan spasi atau format pohon (`|--`, `|--\`, `/namafolder`) untuk indentasi. Cukup tempelkan struktur Anda.</p>
-                <textarea id="structure-input"
-                    class="w-full h-96 bg-gray-900 text-gray-300 p-4 rounded-lg border-2 border-gray-700 focus:border-indigo-500 focus:ring-indigo-500 transition duration-200 font-mono text-sm"
-                    placeholder="Contoh:&#10;/project-baru&#10;|-- /src&#10;|   |-- components/&#10;|   |   |-- Button.js&#10;|   |-- App.js&#10;|-- package.json"></textarea>
-                <button id="generate-btn" class="mt-6 w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-4 rounded-lg transition duration-300 ease-in-out transform hover:scale-105 shadow-lg">
-                    Buat Skrip
-                </button>
-            </div>
+<main class="grid grid-cols-1 md:grid-cols-2 gap-8">
+<!-- Input Section -->
+<div class="bg-gray-800 p-6 rounded-xl shadow-lg">
+<label for="structure-input" class="block text-xl font-semibold mb-3 text-white">1. Definisikan Struktur Anda</label>
+<p class="text-gray-400 mb-4 text-sm">Gunakan spasi atau format pohon (`|--`, `├──`, `/nama`) untuk indentasi. Cukup tempelkan struktur Anda.</p>
+<textarea id="structure-input"
+class="w-full h-96 bg-gray-900 text-gray-300 p-4 rounded-lg border-2 border-gray-700 focus:border-indigo-500 focus:ring-indigo-500 transition duration-200 font-mono text-sm"
+placeholder="Contoh:&#10;project-baru/&#10; src/&#10; App.js&#10;...atau...&#10;├── public/&#10;│   └── index.html&#10;└── package.json"></textarea>
+<button id="generate-btn" class="mt-6 w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-4 rounded-lg transition duration-300 ease-in-out transform hover:scale-105 shadow-lg">
+Buat Skrip
+</button>
+</div>
 
-            <!-- Output Section -->
-            <div class="bg-gray-800 p-6 rounded-xl shadow-lg">
-                <h2 class="text-xl font-semibold mb-3 text-white">2. Salin & Jalankan Skrip</h2>
-                <div class="mb-4">
-                    <div class="flex border-b border-gray-700">
-                        <button class="tab-btn tab-active py-2 px-4 font-semibold" data-target="bash">Bash (Linux/macOS)</button>
-                        <button class="tab-btn tab-inactive py-2 px-4 font-semibold" data-target="powershell">PowerShell (Win)</button>
-                        <button class="tab-btn tab-inactive py-2 px-4 font-semibold" data-target="cmd">CMD (Win)</button>
-                    </div>
-                </div>
+<!-- Output Section -->
+<div class="bg-gray-800 p-6 rounded-xl shadow-lg">
+<h2 class="text-xl font-semibold mb-3 text-white">2. Salin & Jalankan Skrip</h2>
+<div class="mb-4">
+<div class="flex border-b border-gray-700">
+<button class="tab-btn tab-active py-2 px-4 font-semibold" data-target="bash">Bash (Linux/macOS)</button>
+<button class="tab-btn tab-inactive py-2 px-4 font-semibold" data-target="powershell">PowerShell (Win)</button>
+<button class="tab-btn tab-inactive py-2 px-4 font-semibold" data-target="cmd">CMD (Win)</button>
+</div>
+</div>
 
-                <!-- Bash Output -->
-                <div id="bash-output-container" class="output-panel">
-                    <p class="text-gray-400 mb-2 text-sm">Simpan sebagai file `.sh` dan jalankan dengan `bash namafile.sh`.</p>
-                    <div class="relative">
-                        <pre class="bg-gray-900 text-gray-300 p-4 rounded-lg h-80 overflow-auto"><code id="bash-output"></code></pre>
-                        <button class="copy-btn absolute top-2 right-2 bg-gray-700 hover:bg-gray-600 text-white py-1 px-3 rounded-md text-sm" data-target="bash-output">Salin</button>
-                    </div>
-                </div>
+<!-- Bash Output -->
+<div id="bash-output-container" class="output-panel">
+<p class="text-gray-400 mb-2 text-sm">Simpan sebagai file `.sh` dan jalankan dengan `bash namafile.sh`.</p>
+<div class="relative">
+<pre class="bg-gray-900 text-gray-300 p-4 rounded-lg h-80 overflow-auto"><code id="bash-output"></code></pre>
+<button class="copy-btn absolute top-2 right-2 bg-gray-700 hover:bg-gray-600 text-white py-1 px-3 rounded-md text-sm" data-target="bash-output">Salin</button>
+</div>
+</div>
 
-                <!-- PowerShell Output -->
-                <div id="powershell-output-container" class="output-panel hidden">
-                    <p class="text-gray-400 mb-2 text-sm">Simpan sebagai file `.ps1` dan jalankan di terminal PowerShell.</p>
-                     <div class="relative">
-                        <pre class="bg-gray-900 text-gray-300 p-4 rounded-lg h-80 overflow-auto"><code id="powershell-output"></code></pre>
-                        <button class="copy-btn absolute top-2 right-2 bg-gray-700 hover:bg-gray-600 text-white py-1 px-3 rounded-md text-sm" data-target="powershell-output">Salin</button>
-                    </div>
-                </div>
+<!-- PowerShell Output -->
+<div id="powershell-output-container" class="output-panel hidden">
+<p class="text-gray-400 mb-2 text-sm">Simpan sebagai file `.ps1` dan jalankan di terminal PowerShell.</p>
+<div class="relative">
+<pre class="bg-gray-900 text-gray-300 p-4 rounded-lg h-80 overflow-auto"><code id="powershell-output"></code></pre>
+<button class="copy-btn absolute top-2 right-2 bg-gray-700 hover:bg-gray-600 text-white py-1 px-3 rounded-md text-sm" data-target="powershell-output">Salin</button>
+</div>
+</div>
 
-                <!-- CMD Output -->
-                <div id="cmd-output-container" class="output-panel hidden">
-                    <p class="text-gray-400 mb-2 text-sm">Simpan sebagai file `.bat` dan jalankan di Command Prompt.</p>
-                     <div class="relative">
-                        <pre class="bg-gray-900 text-gray-300 p-4 rounded-lg h-80 overflow-auto"><code id="cmd-output"></code></pre>
-                        <button class="copy-btn absolute top-2 right-2 bg-gray-700 hover:bg-gray-600 text-white py-1 px-3 rounded-md text-sm" data-target="cmd-output">Salin</button>
-                    </div>
-                </div>
+<!-- CMD Output -->
+<div id="cmd-output-container" class="output-panel hidden">
+<p class="text-gray-400 mb-2 text-sm">Simpan sebagai file `.bat` dan jalankan di Command Prompt.</p>
+<div class="relative">
+<pre class="bg-gray-900 text-gray-300 p-4 rounded-lg h-80 overflow-auto"><code id="cmd-output"></code></pre>
+<button class="copy-btn absolute top-2 right-2 bg-gray-700 hover:bg-gray-600 text-white py-1 px-3 rounded-md text-sm" data-target="cmd-output">Salin</button>
+</div>
+</div>
 
-                 <div id="message-box" class="mt-4 text-center text-green-400 font-medium opacity-0 transition-opacity duration-300">Skrip disalin ke clipboard!</div>
-            </div>
-        </main>
+<div id="message-box" class="mt-4 text-center text-green-400 font-medium opacity-0 transition-opacity duration-300">Skrip disalin ke clipboard!</div>
+</div>
+</main>
 
-        <footer class="text-center mt-12 text-gray-500">
-            <p>&copy; 2024 Dibuat dengan cinta untuk kemudahan Anda.</p>
-        </footer>
-    </div>
+<footer class="text-center mt-12 text-gray-500">
+<p>&copy; 2024 Dibuat dengan cinta untuk kemudahan Anda.</p>
+</footer>
+</div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const generateBtn = document.getElementById('generate-btn');
-            const structureInput = document.getElementById('structure-input');
-            const bashOutput = document.getElementById('bash-output');
-            const powershellOutput = document.getElementById('powershell-output');
-            const cmdOutput = document.getElementById('cmd-output');
-            const tabs = document.querySelectorAll('.tab-btn');
-            const outputPanels = document.querySelectorAll('.output-panel');
-            const copyBtns = document.querySelectorAll('.copy-btn');
-            const messageBox = document.getElementById('message-box');
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+const generateBtn = document.getElementById('generate-btn');
+const structureInput = document.getElementById('structure-input');
+const bashOutput = document.getElementById('bash-output');
+const powershellOutput = document.getElementById('powershell-output');
+const cmdOutput = document.getElementById('cmd-output');
+const tabs = document.querySelectorAll('.tab-btn');
+const outputPanels = document.querySelectorAll('.output-panel');
+const copyBtns = document.querySelectorAll('.copy-btn');
+const messageBox = document.getElementById('message-box');
 
-            // Set default example text on load with a typical space-indented project structure
-            structureInput.value = `project-baru/\n  src/\n    assets/\n      images/\n      styles/\n        main.css\n    components/\n      Button.js\n      Modal.js\n    App.js\n    index.js\n  public/\n    index.html\n  package.json\n  README.md`;
+// Set default example text on load with the user's new example
+structureInput.value = `cv-interaktif-pro/\n├── index.html\n├── css/\n│ └── style.css\n└── js/\n ├── fullscreen-main.js\n ├── cv-generator.js\n └── export.js`;
 
-            generateBtn.addEventListener('click', generateScripts);
-            
-            // Auto-generate on input change for real-time feedback
-            structureInput.addEventListener('input', generateScripts);
+generateBtn.addEventListener('click', generateScripts);
 
-            tabs.forEach(tab => {
-                tab.addEventListener('click', () => {
-                    const target = tab.dataset.target;
+// Auto-generate on input change for real-time feedback
+structureInput.addEventListener('input', generateScripts);
 
-                    tabs.forEach(t => {
-                        t.classList.remove('tab-active');
-                        t.classList.add('tab-inactive');
-                    });
-                    tab.classList.add('tab-active');
-                    tab.classList.remove('tab-inactive');
+tabs.forEach(tab => {
+tab.addEventListener('click', () => {
+const target = tab.dataset.target;
 
-                    outputPanels.forEach(panel => {
-                        if (panel.id === `${target}-output-container`) {
-                            panel.classList.remove('hidden');
-                        } else {
-                            panel.classList.add('hidden');
-                        }
-                    });
-                });
-            });
+tabs.forEach(t => {
+t.classList.remove('tab-active');
+t.classList.add('tab-inactive');
+});
+tab.classList.add('tab-active');
+tab.classList.remove('tab-inactive');
 
-            copyBtns.forEach(btn => {
-                btn.addEventListener('click', () => {
-                    const targetId = btn.dataset.target;
-                    const codeElement = document.getElementById(targetId);
-                    const textToCopy = codeElement.innerText;
-                    
-                    const tempTextArea = document.createElement('textarea');
-                    tempTextArea.value = textToCopy;
-                    document.body.appendChild(tempTextArea);
-                    tempTextArea.select();
-                    document.execCommand('copy');
-                    document.body.removeChild(tempTextArea);
+outputPanels.forEach(panel => {
+if (panel.id === `${target}-output-container`) {
+panel.classList.remove('hidden');
+} else {
+panel.classList.add('hidden');
+}
+});
+});
+});
 
-                    messageBox.style.opacity = '1';
-                    setTimeout(() => {
-                        messageBox.style.opacity = '0';
-                    }, 2000);
-                });
-            });
+copyBtns.forEach(btn => {
+btn.addEventListener('click', () => {
+const targetId = btn.dataset.target;
+const codeElement = document.getElementById(targetId);
+const textToCopy = codeElement.innerText;
 
-            function parseStructure(text) {
-                const lines = text.split('\n').filter(line => line.trim() !== '');
-                if (lines.length === 0) return [];
+const tempTextArea = document.createElement('textarea');
+tempTextArea.value = textToCopy;
+document.body.appendChild(tempTextArea);
+tempTextArea.select();
+document.execCommand('copy');
+document.body.removeChild(tempTextArea);
 
-                const commands = [];
-                const pathStack = [];
-                const indentLevels = [-1]; 
+messageBox.style.opacity = '1';
+setTimeout(() => {
+messageBox.style.opacity = '0';
+}, 2000);
+});
+});
 
-                lines.forEach((line, i) => {
-                    const cleanedNamePart = line.replace(/^[|`\s-\\\/]*/, '');
-                    
-                    if (!cleanedNamePart) return; 
+function parseStructure(text) {
+const lines = text.split('\n').filter(line => line.trim() !== '');
+if (lines.length === 0) return [];
 
-                    const indentation = line.indexOf(cleanedNamePart);
-                    let name = cleanedNamePart.trim();
+const commands = [];
+const pathStack = [];
+const indentLevels = [-1];
 
-                    let isDirectory = name.endsWith('/');
-                    if (!isDirectory && (i + 1 < lines.length)) {
-                        const nextLine = lines[i + 1];
-                        const nextCleanedName = nextLine.replace(/^[|`\s-\\\/]*/, '');
-                        if (nextCleanedName) {
-                           const nextIndentation = nextLine.indexOf(nextCleanedName);
-                           if (nextIndentation > indentation) {
-                                isDirectory = true;
-                           }
-                        }
-                    }
-                    name = name.replace(/\/$/, '');
+lines.forEach((line, i) => {
+// **UPDATED LOGIC**: Strip tree-like prefixes (`|-- `, `/`, `├──`, `└──`, `│`, etc.)
+// Now includes box-drawing characters.
+const cleanedNamePart = line.replace(/^[|`\s-\\\/├─└│]*/, '');
 
-                    while (indentation <= indentLevels[indentLevels.length - 1]) {
-                        indentLevels.pop();
-                        pathStack.pop();
-                    }
+if (!cleanedNamePart) return;
 
-                    pathStack.push(name);
-                    indentLevels.push(indentation);
+const indentation = line.indexOf(cleanedNamePart);
+let name = cleanedNamePart.trim();
 
-                    commands.push({
-                        path: pathStack.join('/'),
-                        isDirectory: isDirectory
-                    });
-                });
+let isDirectory = name.endsWith('/');
+if (!isDirectory && (i + 1 < lines.length)) {
+const nextLine = lines[i + 1];
+// Also clean the next line to check indentation
+const nextCleanedName = nextLine.replace(/^[|`\s-\\\/├─└│]*/, '');
+if (nextCleanedName) {
+const nextIndentation = nextLine.indexOf(nextCleanedName);
+if (nextIndentation > indentation) {
+isDirectory = true;
+}
+}
+}
+name = name.replace(/\/$/, '');
 
-                return commands;
-            }
+while (indentation <= indentLevels[indentLevels.length - 1]) {
+indentLevels.pop();
+pathStack.pop();
+}
+
+pathStack.push(name);
+indentLevels.push(indentation);
+
+commands.push({
+path: pathStack.join('/'),
+isDirectory: isDirectory
+});
+});
+
+return commands;
+}
 
 
-            function generateScripts() {
-                const inputText = structureInput.value;
-                const commands = parseStructure(inputText);
+function generateScripts() {
+const inputText = structureInput.value;
+const commands = parseStructure(inputText);
 
-                let bashScript = '#!/bin/bash\n# Skrip untuk membuat struktur folder dan file\n\n';
-                let powershellScript = '# Skrip PowerShell untuk membuat struktur folder dan file\n\n';
-                let cmdScript = '@echo off\nrem Skrip CMD untuk membuat struktur folder dan file\n\n';
+let bashScript = '#!/bin/bash\n# Skrip untuk membuat struktur folder dan file\n\n';
+let powershellScript = '# Skrip PowerShell untuk membuat struktur folder dan file\n\n';
+let cmdScript = '@echo off\nrem Skrip CMD untuk membuat struktur folder dan file\n\n';
 
-                const createdDirs = new Set();
+const createdDirs = new Set();
 
-                commands.forEach(cmd => {
-                    // Path for Bash
-                    const pathForBash = cmd.path.includes(" ") ? `"${cmd.path}"` : cmd.path;
-                    
-                    // Path for PowerShell and CMD (uses backslash)
-                    const pathForWin = cmd.path.replace(/\//g, '\\');
-                    const quotedPathForWin = pathForWin.includes(" ") ? `"${pathForWin}"` : pathForWin;
+commands.forEach(cmd => {
+// Path for Bash
+const pathForBash = cmd.path.includes(" ") ? `"${cmd.path}"` : cmd.path;
 
-                    if (cmd.isDirectory) {
-                        if (!createdDirs.has(cmd.path)) {
-                             bashScript += `mkdir -p ${pathForBash}\n`;
-                             powershellScript += `New-Item -ItemType Directory -Force -Path ${quotedPathForWin} -ErrorAction SilentlyContinue | Out-Null\n`;
-                             cmdScript += `mkdir ${quotedPathForWin} 2>nul\n`;
-                             createdDirs.add(cmd.path);
-                        }
-                    } else {
-                        // BASH
-                        const parentDirBash = pathForBash.substring(0, pathForBash.lastIndexOf('/'));
-                         if (parentDirBash && !createdDirs.has(parentDirBash.replace(/"/g, ''))) {
-                            bashScript += `mkdir -p ${parentDirBash}\n`;
-                            createdDirs.add(parentDirBash.replace(/"/g, ''));
-                        }
-                        bashScript += `touch ${pathForBash}\n`;
-                        
-                        // PowerShell & CMD
-                        const parentDirWin = quotedPathForWin.substring(0, quotedPathForWin.lastIndexOf('\\'));
-                        if(parentDirWin && !createdDirs.has(parentDirWin.replace(/\\/g, '/').replace(/"/g, ''))) {
-                             powershellScript += `New-Item -ItemType Directory -Force -Path ${parentDirWin} -ErrorAction SilentlyContinue | Out-Null\n`;
-                             cmdScript += `mkdir ${parentDirWin} 2>nul\n`;
-                             createdDirs.add(parentDirWin.replace(/\\/g, '/').replace(/"/g, ''));
-                        }
-                        powershellScript += `New-Item -ItemType File -Force -Path ${quotedPathForWin} | Out-Null\n`;
-                        cmdScript += `type nul > ${quotedPathForWin}\n`;
-                    }
-                });
+// Path for PowerShell and CMD (uses backslash)
+const pathForWin = cmd.path.replace(/\//g, '\\');
+const quotedPathForWin = pathForWin.includes(" ") ? `"${pathForWin}"` : pathForWin;
 
-                bashOutput.textContent = bashScript;
-                powershellOutput.textContent = powershellScript;
-                cmdOutput.textContent = cmdScript;
-            }
-            
-            // Initial generation on page load
-            generateScripts();
-        });
-    </script>
+if (cmd.isDirectory) {
+if (!createdDirs.has(cmd.path)) {
+bashScript += `mkdir -p ${pathForBash}\n`;
+powershellScript += `New-Item -ItemType Directory -Force -Path ${quotedPathForWin} -ErrorAction SilentlyContinue | Out-Null\n`;
+cmdScript += `mkdir ${quotedPathForWin} 2>nul\n`;
+createdDirs.add(cmd.path);
+}
+} else {
+// BASH
+const parentDirBash = pathForBash.substring(0, pathForBash.lastIndexOf('/'));
+if (parentDirBash && !createdDirs.has(parentDirBash.replace(/"/g, ''))) {
+bashScript += `mkdir -p ${parentDirBash}\n`;
+createdDirs.add(parentDirBash.replace(/"/g, ''));
+}
+bashScript += `touch ${pathForBash}\n`;
+
+// PowerShell & CMD
+const parentDirWin = quotedPathForWin.substring(0, quotedPathForWin.lastIndexOf('\\'));
+if(parentDirWin && !createdDirs.has(parentDirWin.replace(/\\/g, '/').replace(/"/g, ''))) {
+powershellScript += `New-Item -ItemType Directory -Force -Path ${parentDirWin} -ErrorAction SilentlyContinue | Out-Null\n`;
+cmdScript += `mkdir ${parentDirWin} 2>nul\n`;
+createdDirs.add(parentDirWin.replace(/\\/g, '/').replace(/"/g, ''));
+}
+powershellScript += `New-Item -ItemType File -Force -Path ${quotedPathForWin} | Out-Null\n`;
+cmdScript += `type nul > ${quotedPathForWin}\n`;
+}
+});
+
+bashOutput.textContent = bashScript;
+powershellOutput.textContent = powershellScript;
+cmdOutput.textContent = cmdScript;
+}
+
+// Initial generation on page load
+generateScripts();
+});
+</script>
 </body>
 </html>
-
